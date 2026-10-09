@@ -42,6 +42,6 @@ try: idx = json.load(open(idx_path, encoding='utf-8'))
 except Exception: idx = []
 idx = [x for x in idx if x.get('slug') != a.slug]
 idx.insert(0, {'slug': a.slug, 'title': a.title, 'labels': meta['labels'], 'images': n,
-               'updated': datetime.datetime.now().strftime('%Y-%m-%d %H:%M')})
+               'updated': datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y-%m-%d %H:%M')})
 json.dump(idx, open(idx_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 print(f'{out}: 이미지 {n}장, 제목 {len(a.title)}자, 영문 제목 "{meta["slugTitle"]}"')
