@@ -35,4 +35,13 @@ meta = {'title': a.title, 'slugTitle': a.slug.replace('-', ' '),
         'labels': [x.strip() for x in a.labels.split(',') if x.strip()],
         'searchDescription': a.desc}
 json.dump(meta, open(os.path.join(out, 'meta.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+# posts/index.json 갱신 (관리 화면 글 목록)
+import datetime
+idx_path = os.path.join(a.repo, 'posts', 'index.json')
+try: idx = json.load(open(idx_path, encoding='utf-8'))
+except Exception: idx = []
+idx = [x for x in idx if x.get('slug') != a.slug]
+idx.insert(0, {'slug': a.slug, 'title': a.title, 'labels': meta['labels'], 'images': n,
+               'updated': datetime.datetime.now().strftime('%Y-%m-%d %H:%M')})
+json.dump(idx, open(idx_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 print(f'{out}: 이미지 {n}장, 제목 {len(a.title)}자, 영문 제목 "{meta["slugTitle"]}"')
